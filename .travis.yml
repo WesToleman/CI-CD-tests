@@ -21,6 +21,8 @@ matrix:
         - CMAKE_FLAGS="-G Xcode"
 
 before_install:
+  # Install Catch2 dependency, will try to replace with a Conan package later
+  - ./install-catch2.sh
   - eval "${COMPILERS}"
 
 script:

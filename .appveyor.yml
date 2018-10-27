@@ -9,6 +9,10 @@ configuration:
   - Release
   - Debug
 
+install:
+  # Install Catch2 dependency, will try to replace with a Conan package later
+  - ps: .\install-catch2.ps1
+
 before_build:
   - cmake -G "Visual Studio 15 2017" -A x64 .
 
