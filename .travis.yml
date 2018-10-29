@@ -1,5 +1,16 @@
+dist: trusty
+sudo: require
+
 language: cpp
+compiler: gcc
+addons:
+  apt:
+    sources: ubuntu-toolchain-r-test
+    packages: ['gcc-7', 'g++-7', 'cmake']
+
 script:
+  - export CC=gcc-7
+  - export CXX=g++-7
   - mkdir -p build && cd build
   - cmake ..
   - make
