@@ -16,12 +16,19 @@ matrix:
     - os: osx
       osx_image: xcode10
       compiler: clang
-      env: COMPILERS='CC=clang && CXX=clang++'
+      env:
+        - COMPILERS='CC=clang && CXX=clang++'
+        - CMAKE_FLAGS="-G Xcode"
 
 before_install:
   - eval "${COMPILERS}"
 
 script:
   - mkdir -p build && cd build
-  - cmake ..
-  - make
+  - cmake $CMAKE_FLAGS ..
+  - |
+    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      xcodebuild -project CI-CD-Tests.xcodeproj -alltargets -configuration Release
+    else
+      make
+    fi
