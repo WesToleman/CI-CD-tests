@@ -2,15 +2,33 @@ dist: trusty
 sudo: require
 
 language: cpp
-compiler: gcc
-addons:
-  apt:
-    sources: ubuntu-toolchain-r-test
-    packages: ['gcc-7', 'g++-7', 'cmake']
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ubuntu-toolchain-r-test
+          packages: ['gcc-7', 'g++-7', 'cmake']
+      env: COMPILERS="CC=gcc-7 && CXX=g++-7"
+
+    - os: osx
+      osx_image: xcode10
+      compiler: clang
+      env:
+        - COMPILERS='CC=clang && CXX=clang++'
+        - CMAKE_FLAGS="-G Xcode"
+
+before_install:
+  - eval "${COMPILERS}"
 
 script:
-  - export CC=gcc-7
-  - export CXX=g++-7
   - mkdir -p build && cd build
-  - cmake ..
-  - make
+  - cmake $CMAKE_FLAGS ..
+  - |
+    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      xcodebuild -project CI-CD-Tests.xcodeproj -alltargets -configuration Release
+    else
+      make
+    fi
