@@ -34,3 +34,9 @@ script:
     else
       make
     fi
+  - |
+    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      ctest -C Release
+    else
+      ctest
+    fi
