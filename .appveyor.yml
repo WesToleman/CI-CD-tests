@@ -30,6 +30,11 @@ for:
     only:
       - image: Ubuntu
 
+  cache:
+    - /usr/local/include/
+    - /usr/local/lib/
+    - /usr/local/share/
+
   before_build:
     - mkdir -p build; cd build; cmake -DCMAKE_BUILD_TYPE=%CONFIGURATION% ..
 
