@@ -1,3 +1,5 @@
+if (Test-Path 'C:/Program Files (x86)/Catch2/') { exit }
+
 Push-Location -Path $env:temp
 git clone --branch v2.4.2 --depth 1 https://github.com/catchorg/Catch2.git
 mkdir Catch2\build

@@ -46,6 +46,9 @@ for:
     only:
       - image: Visual Studio 2017
 
+  cache:
+    - C:/Program Files (x86)/Catch2/
+
   before_build:
     - cmake -G "Visual Studio 15 2017" -A x64 .
 
