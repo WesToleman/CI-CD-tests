@@ -49,8 +49,8 @@ for:
       - image: Visual Studio 2017
 
   cache:
-    - C:/Program Files/doxygen/
-    - C:/Program Files (x86)/Graphviz2.38
+    - C:\Program Files\doxygen\ -> .appveyor.yml
+    - C:\Program Files (x86)\Graphviz2.38 -> .appveyor.yml
     - C:\Users\Appveyor\.conan -> conanfile.txt
     - C:\.conan -> conanfile.txt
 
