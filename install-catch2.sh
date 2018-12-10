@@ -1,5 +1,6 @@
 #!/bin/sh
 set -ex
+if cd /tmp/Catch2/build; then return; fi
 cd /tmp/
 git clone --branch v2.4.2 --depth 1 https://github.com/catchorg/Catch2.git
 mkdir Catch2/build
