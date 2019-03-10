@@ -14,6 +14,20 @@ target_include_directories(lib
 target_compile_features(lib
 	PUBLIC cxx_constexpr)
 
+# Documentation
+find_package(Doxygen
+	REQUIRED  dot
+	OPTIONAL_COMPONENTS mscgen dia)
+
+# Doxygen navigation on the left side
+set(DOXYGEN_DISABLE_INDEX YES)
+set(DOXYGEN_GENERATE_TREEVIEW YES)
+
+# Public documentation
+doxygen_add_docs(doc
+	docs
+	include/lib)
+
 # Unit Testing
 find_package(Catch2 REQUIRED)
 

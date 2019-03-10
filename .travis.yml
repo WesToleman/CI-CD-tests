@@ -10,12 +10,15 @@ matrix:
       addons:
         apt:
           sources: ubuntu-toolchain-r-test
-          packages: ['gcc-7', 'g++-7', 'cmake']
+          packages: ['gcc-7', 'g++-7', 'cmake', 'doxygen', 'graphviz']
       env: COMPILERS="CC=gcc-7 && CXX=g++-7"
 
     - os: osx
       osx_image: xcode10
       compiler: clang
+      addons:
+        homebrew:
+          packages: ['doxygen', 'graphviz'] # These are required by CMake for the doc target
       env:
         - COMPILERS='CC=clang && CXX=clang++'
         - CMAKE_FLAGS="-G Xcode"
@@ -46,3 +49,13 @@ script:
     else
       ctest
     fi
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  local-dir: build/html
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    condition: $TRAVIS_OS_NAME = osx
+    branch: master
