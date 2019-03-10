@@ -10,8 +10,8 @@ matrix:
       addons:
         apt:
           sources: ubuntu-toolchain-r-test
-          packages: ['gcc-7', 'g++-7', 'cmake', 'doxygen', 'graphviz']
-      env: COMPILERS="CC=gcc-7 && CXX=g++-7"
+          packages: ['gcc-8', 'g++-8', 'cmake', 'doxygen', 'graphviz']
+      env: COMPILERS="CC=gcc-8 && CXX=g++-8"
 
     - os: osx
       osx_image: xcode10
