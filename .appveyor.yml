@@ -23,6 +23,9 @@ install:
   # Doxygen and graphviz are required by the `doc` target
   - sh: sudo apt-get install -y -q doxygen graphviz
   - ps: choco install --no-progress doxygen.install graphviz
+  # Update CMake to fix compatibility issue with Doxygen
+  - ps: choco upgrade --no-progress cmake.install --installargs 'ADD_CMAKE_TO_PATH=System'
+  - ps: $env:Path += ";C:\Program Files\CMake\bin"
   # Install Catch2 dependency, will try to replace with a Conan package later
   - ps: .\install-catch2.ps1
   - sh: ./install-catch2.sh
@@ -51,6 +54,7 @@ for:
 
   cache:
     - C:/Program Files/doxygen/
+    - C:/Program Files/CMake/
     - C:/Program Files (x86)/Graphviz2.38
     - C:/Program Files (x86)/Catch2/
 
