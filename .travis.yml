@@ -49,3 +49,13 @@ script:
     else
       ctest
     fi
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  local-dir: build/html
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    condition: $TRAVIS_OS_NAME = osx
+    branch: master
