@@ -1,0 +1,8 @@
+/**
+@mainpage CI/CD Tests
+
+Testing continuous-delivery/continuous-integration for C++ projects with GitHub.
+
+@author Wes Toleman
+@copyright Copyright Wes Toleman 2019. This project is licensed under the MIT license.
+*/
