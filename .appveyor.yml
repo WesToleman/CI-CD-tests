@@ -20,6 +20,9 @@ install:
         sudo apt-get -qq update
         sudo apt-get install -y -q clang-6.0 clang++-6.0
   - sh: export CC=clang-6.0 CXX=clang++-6.0
+  # Doxygen and graphviz are required by the `doc` target
+  - sh: sudo apt-get install -y -q doxygen graphviz
+  - ps: choco install --no-progress doxygen.install graphviz
   # Install Catch2 dependency, will try to replace with a Conan package later
   - ps: .\install-catch2.ps1
   - sh: ./install-catch2.sh
@@ -47,6 +50,8 @@ for:
       - image: Visual Studio 2017
 
   cache:
+    - C:/Program Files/doxygen/
+    - C:/Program Files (x86)/Graphviz2.38
     - C:/Program Files (x86)/Catch2/
 
   before_build:
