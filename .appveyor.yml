@@ -14,22 +14,6 @@ configuration:
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
 
-install:
-  # Install clang on Ubuntu
-  - sh: |
-        sudo apt-get -qq update
-        sudo apt-get install -y -q clang-7 clang++-7
-  - sh: export CC=clang-7 CXX=clang++-7
-  # Doxygen and graphviz are required by the `doc` target
-  - sh: sudo apt-get install -y -q doxygen graphviz
-  - ps: choco install --no-progress doxygen.install graphviz
-  # Update CMake to fix compatibility issue with Doxygen
-  - ps: choco upgrade --no-progress cmake.install --installargs 'ADD_CMAKE_TO_PATH=System'
-  - ps: $env:Path += ";C:\Program Files\CMake\bin"
-  # Install Catch2 dependency, will try to replace with a Conan package later
-  - ps: .\install-catch2.ps1
-  - sh: ./install-catch2.sh
-
 for:
 -
   matrix:
@@ -37,15 +21,28 @@ for:
       - image: Ubuntu1804
 
   cache:
-    - /usr/local/include/
-    - /usr/local/lib/
-    - /usr/local/share/
+    - ~/.conan -> conanfile.txt
+
+  install:
+    # Install clang 7
+    - sudo apt-get -qq update
+    - sudo apt-get install -y -q clang-7 clang++-7
+    - export CC=clang-7 CXX=clang++-7
+    # Doxygen and graphviz are required by the `doc` target
+    - sudo apt-get install -y -q doxygen graphviz
+    # Install Conan
+    - sudo pip install --quiet conan
+    - conan user
 
   before_build:
-    - mkdir -p build; cd build; cmake -DCMAKE_BUILD_TYPE=%CONFIGURATION% ..
+    - conan install . -s build_type=$CONFIGURATION --install-folder=build --build missing
+    - mkdir -p build; cd build; cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
 
   build_script:
     - make
+
+  test_script:
+    - ctest
 
 -
   matrix:
@@ -56,13 +53,25 @@ for:
     - C:/Program Files/doxygen/
     - C:/Program Files/CMake/
     - C:/Program Files (x86)/Graphviz2.38
-    - C:/Program Files (x86)/Catch2/
+    - C:\Users\Appveyor\.conan -> conanfile.txt
+    - C:\.conan -> conanfile.txt
+
+  install:
+    # Doxygen and graphviz are required by the `doc` target
+    - choco install --no-progress doxygen.install graphviz
+    # Update CMake to fix compatibility issue with Doxygen
+    - ps: choco upgrade --no-progress cmake.install --installargs 'ADD_CMAKE_TO_PATH=System'
+    - ps: $env:Path += ";C:\Program Files\CMake\bin"
+    # Install Conan
+    - pip install --quiet conan
+    - conan user
 
   before_build:
+    - conan install . -s build_type=%CONFIGURATION% --build missing
     - cmake -G "Visual Studio 15 2017" -A x64 .
 
   build_script:
     - msbuild %APPVEYOR_PROJECT_NAME%.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
-test_script:
-  - ctest -C %CONFIGURATION%
+  test_script:
+    - ctest -C %CONFIGURATION%
