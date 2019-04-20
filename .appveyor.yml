@@ -2,7 +2,7 @@ version: 'build-{build}-{branch}'
 
 image:
   - Visual Studio 2017
-  - Ubuntu
+  - Ubuntu1804
 
 platform:
   - x64
@@ -18,8 +18,8 @@ install:
   # Install clang on Ubuntu
   - sh: |
         sudo apt-get -qq update
-        sudo apt-get install -y -q clang-6.0 clang++-6.0
-  - sh: export CC=clang-6.0 CXX=clang++-6.0
+        sudo apt-get install -y -q clang-7 clang++-7
+  - sh: export CC=clang-7 CXX=clang++-7
   # Doxygen and graphviz are required by the `doc` target
   - sh: sudo apt-get install -y -q doxygen graphviz
   - ps: choco install --no-progress doxygen.install graphviz
@@ -34,7 +34,7 @@ for:
 -
   matrix:
     only:
-      - image: Ubuntu
+      - image: Ubuntu1804
 
   cache:
     - /usr/local/include/
