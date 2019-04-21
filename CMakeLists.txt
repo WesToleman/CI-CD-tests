@@ -3,6 +3,9 @@ Project(CI-CD-Tests
 	DESCRIPTION "Testing continuous-delivery/continuous-integration for C++ projects with GitHub"
 	LANGUAGES CXX)
 
+# Conan places find modules in the build directory
+set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+
 add_executable(StringViewSupport src/StringViewSupport.cpp)
 target_compile_features(StringViewSupport PUBLIC cxx_std_17)
 
