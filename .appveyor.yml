@@ -49,18 +49,19 @@ for:
       - image: Visual Studio 2017
 
   cache:
-    - C:/Program Files/doxygen/
-    - C:/Program Files/CMake/
-    - C:/Program Files (x86)/Graphviz2.38
+    - C:\ProgramData\chocolatey\bin -> .appveyor.yml
+    - C:\ProgramData\chocolatey\lib -> .appveyor.yml
+    - C:\Program Files\doxygen\ -> .appveyor.yml
+    - C:\Program Files (x86)\Graphviz2.38 -> .appveyor.yml
     - C:\Users\Appveyor\.conan -> conanfile.txt
     - C:\.conan -> conanfile.txt
 
   install:
     # Doxygen and graphviz are required by the `doc` target
-    - choco install --no-progress doxygen.install graphviz
+    - choco upgrade --no-progress doxygen.install graphviz
     # Update CMake to fix compatibility issue with Doxygen
-    - ps: choco upgrade --no-progress cmake.install --installargs 'ADD_CMAKE_TO_PATH=System'
-    - ps: $env:Path += ";C:\Program Files\CMake\bin"
+    - choco upgrade --no-progress cmake.install --installargs 'ADD_CMAKE_TO_PATH=System'
+    - refreshenv
     # Install Conan
     - pip install --quiet conan
     - conan user
