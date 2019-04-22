@@ -50,7 +50,6 @@ for:
 
   cache:
     - C:/Program Files/doxygen/
-    - C:/Program Files/CMake/
     - C:/Program Files (x86)/Graphviz2.38
     - C:\Users\Appveyor\.conan -> conanfile.txt
     - C:\.conan -> conanfile.txt
