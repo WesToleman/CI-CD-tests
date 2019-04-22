@@ -48,7 +48,7 @@ script:
     if [ "$TRAVIS_OS_NAME" == "osx" ]; then
       xcodebuild -project CI-CD-Tests.xcodeproj -alltargets -configuration Release
     else
-      make
+      make -j3
     fi
   - |
     if [ "$TRAVIS_OS_NAME" == "osx" ]; then

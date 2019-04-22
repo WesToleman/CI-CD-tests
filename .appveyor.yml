@@ -38,7 +38,7 @@ for:
     - mkdir -p build; cd build; cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
 
   build_script:
-    - make
+    - make -j3
 
   test_script:
     - ctest
