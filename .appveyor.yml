@@ -60,8 +60,8 @@ for:
     # Doxygen and graphviz are required by the `doc` target
     - choco upgrade --no-progress doxygen.install graphviz
     # Update CMake to fix compatibility issue with Doxygen
-    - ps: choco upgrade --no-progress cmake.install --installargs 'ADD_CMAKE_TO_PATH=System'
-    - ps: $env:Path += ";C:\Program Files\CMake\bin"
+    - choco upgrade --no-progress cmake.install --installargs 'ADD_CMAKE_TO_PATH=System'
+    - refreshenv
     # Install Conan
     - pip install --quiet conan
     - conan user
