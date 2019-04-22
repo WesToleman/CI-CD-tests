@@ -70,7 +70,7 @@ for:
     - cmake -G "Visual Studio 15 2017" -A x64 .
 
   build_script:
-    - msbuild %APPVEYOR_PROJECT_NAME%.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    - msbuild %APPVEYOR_PROJECT_NAME%.sln /m  /p:BuildInParallel="True" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
   test_script:
     - ctest -C %CONFIGURATION%
