@@ -49,10 +49,13 @@ for:
       - image: Visual Studio 2017
 
   cache:
+    - C:\Users\Appveyor\choco-cache -> .appveyor.yml
     - C:\Users\Appveyor\.conan -> conanfile.txt
     - C:\.conan -> conanfile.txt
 
   install:
+    # Change where Chocolatey caches downloads
+    - choco config set cacheLocation C:\Users\Appveyor\choco-cache
     # Doxygen and graphviz are required by the `doc` target
     - choco upgrade --no-progress doxygen.install graphviz
     # Update CMake to fix compatibility issue with Doxygen
