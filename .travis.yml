@@ -11,7 +11,9 @@ matrix:
         apt:
           sources: ubuntu-toolchain-r-test
           packages: ['gcc-8', 'g++-8', 'cmake', 'doxygen', 'graphviz', 'python3', 'python3-pip']
-      env: COMPILERS="CC=gcc-8 && CXX=g++-8"
+      env:
+        - COMPILERS="CC=gcc-8 && CXX=g++-8"
+        - CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
 
     - os: osx
       osx_image: xcode10
@@ -46,7 +48,7 @@ script:
     if [ "$TRAVIS_OS_NAME" == "osx" ]; then
       xcodebuild -project CI-CD-Tests.xcodeproj -alltargets -configuration Release
     else
-      make
+      make -j3
     fi
   - |
     if [ "$TRAVIS_OS_NAME" == "osx" ]; then
