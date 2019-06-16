@@ -37,8 +37,8 @@ find_package(Catch2 REQUIRED)
 add_executable(Tests
 	${CMAKE_SOURCE_DIR}/test/tests.cpp)
 target_link_libraries(Tests
-	Catch2::Catch2
-	lib)
+	PRIVATE Catch2::Catch2
+	PRIVATE lib)
 
 include(CTest)
 enable_testing()
