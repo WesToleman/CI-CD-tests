@@ -14,6 +14,11 @@ matrix:
       env:
         - COMPILERS="CC=gcc-8 && CXX=g++-8"
         - CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
+      script:
+        - mkdir -p build && cd build
+        - cmake $CMAKE_FLAGS ..
+        - make -j3
+        - ctest
 
     - os: osx
       osx_image: xcode10
@@ -24,6 +29,11 @@ matrix:
       env:
         - COMPILERS='CC=clang && CXX=clang++'
         - CMAKE_FLAGS="-G Xcode"
+      script:
+        - mkdir -p build && cd build
+        - cmake $CMAKE_FLAGS ..
+        - xcodebuild -project CI-CD-Tests.xcodeproj -alltargets -configuration Release
+        - ctest -C Release
 
 cache:
   directories:
@@ -40,22 +50,6 @@ before_install:
 install:
   # Download and build dependencies
   - conan install . -s build_type=Release --install-folder=build --build missing
-
-script:
-  - mkdir -p build && cd build
-  - cmake $CMAKE_FLAGS ..
-  - |
-    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      xcodebuild -project CI-CD-Tests.xcodeproj -alltargets -configuration Release
-    else
-      make -j3
-    fi
-  - |
-    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      ctest -C Release
-    else
-      ctest
-    fi
 
 deploy:
   provider: pages
