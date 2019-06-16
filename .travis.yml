@@ -13,10 +13,9 @@ matrix:
           packages: ['gcc-8', 'g++-8', 'cmake', 'doxygen', 'graphviz', 'python3', 'python3-pip']
       env:
         - COMPILERS="CC=gcc-8 && CXX=g++-8"
-        - CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
       script:
         - mkdir -p build && cd build
-        - cmake $CMAKE_FLAGS ..
+        - cmake -DCMAKE_BUILD_TYPE=Release ..
         - make -j3
         - ctest
 
@@ -28,10 +27,9 @@ matrix:
           packages: ['doxygen', 'graphviz'] # These are required by CMake for the doc target
       env:
         - COMPILERS='CC=clang && CXX=clang++'
-        - CMAKE_FLAGS="-G Xcode"
       script:
         - mkdir -p build && cd build
-        - cmake $CMAKE_FLAGS ..
+        - cmake -G Xcode ..
         - xcodebuild -project CI-CD-Tests.xcodeproj -alltargets -configuration Release
         - ctest -C Release
 
