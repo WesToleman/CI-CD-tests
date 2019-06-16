@@ -4,7 +4,10 @@ Project(CI-CD-Tests
 	LANGUAGES CXX)
 
 # Conan places find modules in the build directory
-set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/modules;${CMAKE_BINARY_DIR}")
+
+# Add targets for coverage reports
+include(code-coverage)
 
 add_executable(StringViewSupport src/StringViewSupport.cpp)
 target_compile_features(StringViewSupport PUBLIC cxx_std_17)
@@ -31,6 +34,8 @@ doxygen_add_docs(doc
 	docs
 	include/lib)
 
+target_code_coverage(lib)
+
 # Unit Testing
 find_package(Catch2 REQUIRED)
 
@@ -39,6 +44,7 @@ add_executable(Tests
 target_link_libraries(Tests
 	PRIVATE Catch2::Catch2
 	PRIVATE lib)
+target_code_coverage(Tests EXCLUDE "/usr/*" "**/.conan/*" "${CMAKE_SOURCE_DIR}/test/*")
 
 include(CTest)
 enable_testing()
