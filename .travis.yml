@@ -13,6 +13,12 @@ matrix:
           packages: ['gcc-8', 'g++-8', 'cmake', 'doxygen', 'graphviz', 'python3', 'python3-pip']
       env:
         - COMPILERS="CC=gcc-8 && CXX=g++-8"
+      before_install:
+        - eval "${COMPILERS}"
+        # Install Conan
+        - pip install --user --quiet conan
+        # Detect architecture and compiler
+        - conan user
       script:
         - mkdir -p build && cd build
         - cmake -DCMAKE_BUILD_TYPE=Release ..
@@ -27,6 +33,11 @@ matrix:
           packages: ['doxygen', 'graphviz'] # These are required by CMake for the doc target
       env:
         - COMPILERS='CC=clang && CXX=clang++'
+      before_install:
+        # Install Conan
+        - pip install --quiet conan
+        # Detect architecture and compiler
+        - conan user
       script:
         - mkdir -p build && cd build
         - cmake -G Xcode ..
@@ -36,14 +47,6 @@ matrix:
 cache:
   directories:
     - ~/.conan
-
-before_install:
-  - eval "${COMPILERS}"
-  # Install Conan
-  - sudo pip3 install --upgrade setuptools
-  - sudo pip3 install --quiet conan
-  # Detect architecture and compiler
-  - conan user
 
 install:
   # Download and build dependencies
