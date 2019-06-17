@@ -13,7 +13,18 @@ matrix:
           packages: ['gcc-8', 'g++-8', 'cmake', 'doxygen', 'graphviz', 'python3', 'python3-pip']
       env:
         - COMPILERS="CC=gcc-8 && CXX=g++-8"
-        - CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
+      before_install:
+        - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 100
+        - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100
+        # Install Conan
+        - pip install --user --quiet conan
+        # Detect architecture and compiler
+        - conan user
+      script:
+        - mkdir -p build && cd build
+        - cmake -DCMAKE_BUILD_TYPE=Release ..
+        - make -j3
+        - ctest
 
     - os: osx
       osx_image: xcode10
@@ -23,46 +34,29 @@ matrix:
           packages: ['doxygen', 'graphviz'] # These are required by CMake for the doc target
       env:
         - COMPILERS='CC=clang && CXX=clang++'
-        - CMAKE_FLAGS="-G Xcode"
+      before_install:
+        # Install Conan
+        - pip install --quiet conan
+        # Detect architecture and compiler
+        - conan user
+      script:
+        - mkdir -p build && cd build
+        - cmake -G Xcode ..
+        - xcodebuild -project CI-CD-Tests.xcodeproj -alltargets -configuration Release
+        - ctest -C Release
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        local-dir: build/html
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        on:
+          branch: master
 
 cache:
   directories:
     - ~/.conan
 
-before_install:
-  - eval "${COMPILERS}"
-  # Install Conan
-  - sudo pip3 install --upgrade setuptools
-  - sudo pip3 install --quiet conan
-  # Detect architecture and compiler
-  - conan user
-
 install:
   # Download and build dependencies
   - conan install . -s build_type=Release --install-folder=build --build missing
-
-script:
-  - mkdir -p build && cd build
-  - cmake $CMAKE_FLAGS ..
-  - |
-    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      xcodebuild -project CI-CD-Tests.xcodeproj -alltargets -configuration Release
-    else
-      make -j3
-    fi
-  - |
-    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      ctest -C Release
-    else
-      ctest
-    fi
-
-deploy:
-  provider: pages
-  skip-cleanup: true
-  local-dir: build/html
-  github-token: $GITHUB_TOKEN
-  keep-history: true
-  on:
-    condition: $TRAVIS_OS_NAME = osx
-    branch: master
