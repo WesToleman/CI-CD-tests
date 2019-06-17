@@ -43,6 +43,14 @@ matrix:
         - cmake -G Xcode ..
         - xcodebuild -project CI-CD-Tests.xcodeproj -alltargets -configuration Release
         - ctest -C Release
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        local-dir: build/html
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        on:
+          branch: master
 
 cache:
   directories:
@@ -51,13 +59,3 @@ cache:
 install:
   # Download and build dependencies
   - conan install . -s build_type=Release --install-folder=build --build missing
-
-deploy:
-  provider: pages
-  skip-cleanup: true
-  local-dir: build/html
-  github-token: $GITHUB_TOKEN
-  keep-history: true
-  on:
-    condition: $TRAVIS_OS_NAME = osx
-    branch: master
