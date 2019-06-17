@@ -16,15 +16,28 @@ matrix:
       before_install:
         - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 100
         - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100
+        - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-8 100
+
+        # Install lcov 1.14
+        # GCC 8 requires lcov > 0.13 and Xenial only offers 1.12
+        - pushd /tmp
+        - git clone --branch v1.14 --depth 1 https://github.com/linux-test-project/lcov.git
+        - cd lcov && sudo make install
+        - popd
+
         # Install Conan
         - pip install --user --quiet conan
         # Detect architecture and compiler
         - conan user
       script:
         - mkdir -p build && cd build
-        - cmake -DCMAKE_BUILD_TYPE=Release ..
+        - cmake -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON ..
         - make -j3
+        - make ccov-Tests
         - ctest
+      after_success:
+        # Upload report to CodeCov
+        - bash <(curl -s https://codecov.io/bash) -f ccov/Tests.info || echo "Codecov did not collect coverage reports"
 
     - os: osx
       osx_image: xcode10
