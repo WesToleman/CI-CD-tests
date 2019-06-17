@@ -14,7 +14,8 @@ matrix:
       env:
         - COMPILERS="CC=gcc-8 && CXX=g++-8"
       before_install:
-        - eval "${COMPILERS}"
+        - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 100
+        - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100
         # Install Conan
         - pip install --user --quiet conan
         # Detect architecture and compiler
