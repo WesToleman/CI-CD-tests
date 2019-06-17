@@ -12,8 +12,8 @@ matrix:
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
-            - gcc-8
-            - g++-8
+            - gcc-9
+            - g++-9
             - cmake
             - doxygen
             - graphviz
@@ -26,9 +26,9 @@ matrix:
           - ~/.conan
           - ~/.cache/pip
       before_install:
-        - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 100
-        - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100
-        - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-8 100
+        - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 100
+        - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 100
+        - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-9 100
 
         # Install lcov 1.14
         # GCC 8 requires lcov >= 0.13-4 and Bionic only offers 1.13-3
