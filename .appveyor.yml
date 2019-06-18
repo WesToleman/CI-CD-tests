@@ -23,10 +23,18 @@ for:
     - ~/.conan -> conanfile.txt
 
   install:
-    # Install clang 7
+    # Install clang 8
+    - wget -q -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+    - sudo add-apt-repository 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main'
     - sudo apt-get -qq update
-    - sudo apt-get install -y -q clang-7 clang++-7
-    - export CC=clang-7 CXX=clang++-7
+    - sudo apt-get install -y -q clang-8 clang++-8
+    - export CC=clang-8 CXX=clang++-8
+
+    - sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-8 100
+    - sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-8 100
+    - sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-8 100
+    - sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-8 100
+
     # Doxygen and graphviz are required by the `doc` target
     - sudo apt-get install -y -q doxygen graphviz
     # Install Conan
