@@ -40,7 +40,7 @@ matrix:
         - bash <(curl -s https://codecov.io/bash) -f ccov/Tests.info || echo "Codecov did not collect coverage reports"
 
     - os: osx
-      osx_image: xcode10
+      osx_image: xcode10.2
       compiler: clang
       addons:
         homebrew:
