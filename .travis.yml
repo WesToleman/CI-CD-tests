@@ -57,6 +57,8 @@ matrix:
         - cmake -G Xcode ..
         - xcodebuild -project CI-CD-Tests.xcodeproj -configuration Release
         - ctest -C Release
+      before_deploy:
+        - xcodebuild -project CI-CD-Tests.xcodeproj -target doc
       deploy:
         provider: pages
         skip-cleanup: true
