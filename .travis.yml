@@ -48,9 +48,12 @@ matrix:
       addons:
         homebrew:
           packages: ['doxygen', 'graphviz'] # These are required by CMake for the doc target
+      before_cache:
+        - brew cleanup
       cache:
         directories:
           - ~/.conan
+          - ~/Library/Caches/Homebrew
       env:
         - COMPILERS='CC=clang && CXX=clang++'
       before_install:
