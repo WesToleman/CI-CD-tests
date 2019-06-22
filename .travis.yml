@@ -36,7 +36,7 @@ matrix:
         - popd
 
         # Install Conan
-        - sudo -H pip3 install --quiet conan
+        - sudo -H pip3 install conan
         # Detect architecture and compiler
         - conan user
       script:
@@ -63,7 +63,7 @@ matrix:
           - ~/Library/Caches/pip
       before_install:
         # Install Conan
-        - pip3 install --quiet conan
+        - pip3 install conan
         # Detect architecture and compiler
         - conan user
       script:
