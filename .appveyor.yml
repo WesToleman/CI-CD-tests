@@ -24,6 +24,9 @@ for:
     - /home/appveyor/.cache/pip -> .appveyor.yml
 
   install:
+    # Enable `--no-install-recommends` by default
+    - apt-config dump | grep -we Recommends -e Suggests | sed s/1/0/ | sudo tee /etc/apt/apt.conf.d/999norecommend
+
     # Install clang 8
     - wget -q -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
     - sudo add-apt-repository 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main'
