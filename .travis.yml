@@ -14,6 +14,7 @@ matrix:
       cache:
         directories:
           - ~/.conan
+          - ~/.cache/pip
       env:
         - COMPILERS="CC=gcc-8 && CXX=g++-8"
       before_install:
@@ -54,6 +55,7 @@ matrix:
         directories:
           - ~/.conan
           - ~/Library/Caches/Homebrew
+          - ~/Library/Caches/pip
       env:
         - COMPILERS='CC=clang && CXX=clang++'
       before_install:
