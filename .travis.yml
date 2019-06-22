@@ -10,13 +10,20 @@ matrix:
       addons:
         apt:
           sources: ubuntu-toolchain-r-test
-          packages: ['gcc-8', 'g++-8', 'cmake', 'doxygen', 'graphviz', 'python3', 'python3-pip', 'python3-setuptools']
+          packages:
+            - gcc-8
+            - g++-8
+            - cmake
+            - doxygen
+            - graphviz
+            - python3
+            - python3-pip
+            - python3-setuptools
+            - python3-wheel
       cache:
         directories:
           - ~/.conan
           - ~/.cache/pip
-      env:
-        - COMPILERS="CC=gcc-8 && CXX=g++-8"
       before_install:
         - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 100
         - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100
@@ -30,7 +37,7 @@ matrix:
         - popd
 
         # Install Conan
-        - sudo -H pip3 install --quiet conan
+        - sudo -H pip3 install conan
         # Detect architecture and compiler
         - conan user
       script:
@@ -48,19 +55,18 @@ matrix:
       compiler: clang
       addons:
         homebrew:
-          packages: ['doxygen', 'graphviz'] # These are required by CMake for the doc target
-      before_cache:
-        - brew cleanup
+          packages:
+            - doxygen
+            - graphviz
+      env:
+        - HOMEBREW_NO_INSTALL_CLEANUP=1
       cache:
         directories:
           - ~/.conan
-          - ~/Library/Caches/Homebrew
           - ~/Library/Caches/pip
-      env:
-        - COMPILERS='CC=clang && CXX=clang++'
       before_install:
         # Install Conan
-        - pip3 install --quiet conan
+        - pip3 install conan
         # Detect architecture and compiler
         - conan user
       script:

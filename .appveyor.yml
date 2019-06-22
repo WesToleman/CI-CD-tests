@@ -21,9 +21,12 @@ for:
 
   cache:
     - /home/appveyor/.conan -> conanfile.txt
-    - /home/appveyor/.cache/pip -> appveyor.yml
+    - /home/appveyor/.cache/pip -> .appveyor.yml
 
   install:
+    # Enable `--no-install-recommends` by default
+    - apt-config dump | grep -we Recommends -e Suggests | sed s/1/0/ | sudo tee /etc/apt/apt.conf.d/999norecommend
+
     # Install clang 8
     - wget -q -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
     - sudo add-apt-repository 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main'
@@ -40,8 +43,8 @@ for:
     - sudo apt-get install -y -q doxygen graphviz
 
     # Install Conan
-    - sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q python3 python3-pip
-    - sudo -H pip3 install --quiet conan
+    - sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q python3 python3-pip python3-setuptools python3-wheel
+    - sudo -H pip3 install conan
     - conan user
 
   before_build:
@@ -62,7 +65,7 @@ for:
   cache:
     - C:\Users\Appveyor\choco-cache -> .appveyor.yml
     - C:\Users\Appveyor\.conan -> conanfile.txt
-    - C:\Users\Appveyor\AppData\Local\pip\Cache -> appveyor.yml
+    - C:\Users\Appveyor\AppData\Local\pip\Cache -> .appveyor.yml
 
   install:
     # Change where Chocolatey caches downloads
@@ -73,7 +76,7 @@ for:
     - choco upgrade --no-progress cmake.install --installargs 'ADD_CMAKE_TO_PATH=System'
     - refreshenv
     # Install Conan
-    - pip install --quiet conan
+    - pip install conan
     - conan user
 
   before_build:
