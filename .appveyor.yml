@@ -21,7 +21,7 @@ for:
 
   cache:
     - /home/appveyor/.conan -> conanfile.txt
-    - /home/appveyor/.cache/pip -> appveyor.yml
+    - /home/appveyor/.cache/pip -> .appveyor.yml
 
   install:
     # Install clang 8
@@ -62,7 +62,7 @@ for:
   cache:
     - C:\Users\Appveyor\choco-cache -> .appveyor.yml
     - C:\Users\Appveyor\.conan -> conanfile.txt
-    - C:\Users\Appveyor\AppData\Local\pip\Cache -> appveyor.yml
+    - C:\Users\Appveyor\AppData\Local\pip\Cache -> .appveyor.yml
 
   install:
     # Change where Chocolatey caches downloads
