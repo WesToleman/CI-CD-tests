@@ -58,6 +58,8 @@ matrix:
           packages:
             - doxygen
             - graphviz
+      env:
+        - HOMEBREW_NO_INSTALL_CLEANUP=1
       cache:
         directories:
           - ~/.conan
