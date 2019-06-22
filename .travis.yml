@@ -23,8 +23,6 @@ matrix:
         directories:
           - ~/.conan
           - ~/.cache/pip
-      env:
-        - COMPILERS="CC=gcc-8 && CXX=g++-8"
       before_install:
         - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 100
         - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100
@@ -66,8 +64,6 @@ matrix:
           - ~/.conan
           - ~/Library/Caches/Homebrew
           - ~/Library/Caches/pip
-      env:
-        - COMPILERS='CC=clang && CXX=clang++'
       before_install:
         # Install Conan
         - pip3 install --quiet conan
