@@ -4,7 +4,9 @@ Project(CI-CD-Tests
 	LANGUAGES CXX)
 
 # Conan places find modules in the build directory
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/modules;${CMAKE_BINARY_DIR}")
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/modules
+	                  ${CMAKE_SOURCE_DIR}/CMake/stabletec-cmake-scripts
+	                  ${CMAKE_BINARY_DIR})
 
 # Add targets for coverage reports
 include(code-coverage)

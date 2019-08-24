@@ -1,0 +1,3 @@
+[submodule "CMake/stabletec-cmake-scripts"]
+	path = CMake/stabletec-cmake-scripts
+	url = http://git.stabletec.com/other/cmake-scripts.git
