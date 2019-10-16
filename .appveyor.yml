@@ -1,7 +1,7 @@
 version: 'build-{build}-{branch}'
 
 image:
-  - Visual Studio 2017
+  - Visual Studio 2019
   - Ubuntu1804
 
 platform:
@@ -60,7 +60,7 @@ for:
 -
   matrix:
     only:
-      - image: Visual Studio 2017
+      - image: Visual Studio 2019
 
   cache:
     - C:\Users\Appveyor\choco-cache -> .appveyor.yml
@@ -81,7 +81,7 @@ for:
 
   before_build:
     - conan install . -s build_type=%CONFIGURATION% --build missing
-    - cmake -G "Visual Studio 15 2017" -A x64 .
+    - cmake -G "Visual Studio 16 2019" -A x64 .
 
   build_script:
     - msbuild %APPVEYOR_PROJECT_NAME%.sln /m  /p:BuildInParallel="True" /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
