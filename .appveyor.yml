@@ -24,6 +24,9 @@ for:
     - /home/appveyor/.cache/pip -> .appveyor.yml
 
   install:
+    # Clone any Git submodules
+    - git submodule -q update --init
+
     # Enable `--no-install-recommends` by default
     - apt-config dump | grep -we Recommends -e Suggests | sed s/1/0/ | sudo tee /etc/apt/apt.conf.d/999norecommend
 
@@ -68,6 +71,9 @@ for:
     - C:\Users\Appveyor\AppData\Local\pip\Cache -> .appveyor.yml
 
   install:
+    # Clone any Git submodules
+    - git submodule -q update --init
+
     # Change where Chocolatey caches downloads
     - choco config set cacheLocation C:\Users\Appveyor\choco-cache
     # Doxygen and graphviz are required by the `doc` target
