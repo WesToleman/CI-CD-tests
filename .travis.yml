@@ -82,7 +82,7 @@ jobs:
         - xcodebuild -project CI-CD-Tests.xcodeproj -target doc
       deploy:
         provider: pages
-        cleanup: false
+        skip_cleanup: true
         local_dir: build/html
         token: $GITHUB_TOKEN
         keep_history: true
