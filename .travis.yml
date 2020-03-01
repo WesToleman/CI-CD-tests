@@ -55,6 +55,7 @@ matrix:
       compiler: clang
       addons:
         homebrew:
+          update: true
           packages:
             - doxygen
             - graphviz
