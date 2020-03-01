@@ -1,4 +1,4 @@
-dist: xenial
+dist: bionic
 sudo: require
 
 language: cpp
@@ -30,7 +30,7 @@ matrix:
         - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-8 100
 
         # Install lcov 1.14
-        # GCC 8 requires lcov > 0.13 and Xenial only offers 1.12
+        # GCC 8 requires lcov >= 0.13-4 and Bionic only offers 1.13-3
         - pushd /tmp
         - git clone --branch v1.14 --depth 1 https://github.com/linux-test-project/lcov.git
         - cd lcov && sudo make install
@@ -51,10 +51,11 @@ matrix:
         - bash <(curl -s https://codecov.io/bash) -f ccov/Tests.info || echo "Codecov did not collect coverage reports"
 
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode11.3
       compiler: clang
       addons:
         homebrew:
+          update: true
           packages:
             - doxygen
             - graphviz
