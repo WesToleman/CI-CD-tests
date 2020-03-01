@@ -1,9 +1,9 @@
+os: linux
 dist: bionic
-sudo: require
 
 language: cpp
 
-matrix:
+jobs:
   include:
     - os: linux
       compiler: gcc
@@ -82,10 +82,10 @@ matrix:
         - xcodebuild -project CI-CD-Tests.xcodeproj -target doc
       deploy:
         provider: pages
-        skip-cleanup: true
-        local-dir: build/html
-        github-token: $GITHUB_TOKEN
-        keep-history: true
+        cleanup: false
+        local_dir: build/html
+        token: $GITHUB_TOKEN
+        keep_history: true
         on:
           branch: master
 
