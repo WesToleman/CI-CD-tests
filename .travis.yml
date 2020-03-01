@@ -82,12 +82,9 @@ jobs:
         - xcodebuild -project CI-CD-Tests.xcodeproj -target doc
       deploy:
         provider: pages
-        skip_cleanup: true
-        local_dir: build/html
+        local_dir: html
         token: $GITHUB_TOKEN
-        keep_history: true
-        on:
-          branch: master
+        edge: true
 
 install:
   # Download and build dependencies
