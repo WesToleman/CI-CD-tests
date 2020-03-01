@@ -82,9 +82,9 @@ matrix:
       deploy:
         provider: pages
         cleanup: false
-        local-dir: build/html
+        local_dir: build/html
         token: $GITHUB_TOKEN
-        keep-history: true
+        keep_history: true
         on:
           branch: master
 
