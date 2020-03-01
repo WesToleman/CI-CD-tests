@@ -9,7 +9,8 @@ matrix:
       compiler: gcc
       addons:
         apt:
-          sources: ubuntu-toolchain-r-test
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
             - gcc-8
             - g++-8
