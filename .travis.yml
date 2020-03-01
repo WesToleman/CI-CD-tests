@@ -83,7 +83,7 @@ matrix:
         provider: pages
         cleanup: false
         local-dir: build/html
-        github-token: $GITHUB_TOKEN
+        token: $GITHUB_TOKEN
         keep-history: true
         on:
           branch: master
