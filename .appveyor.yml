@@ -8,6 +8,8 @@ platform:
 configuration:
   - Release
 
+skip_tags: true
+
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
 
@@ -92,3 +94,12 @@ for:
 
   test_script:
     - ctest -C %CONFIGURATION%
+
+  before_deploy:
+  - git config --global credential.helper store
+  - ps: Add-Content "$HOME\.git-credentials" "https://$($env:GITHUB_TOKEN):x-oauth-basic@github.com`n"
+
+  deploy_script:
+    - if %APPVEYOR_REPO_BRANCH% NEQ master appveyor exit
+    - git tag v%GitVersion_SemVer%
+    - git push --tags
