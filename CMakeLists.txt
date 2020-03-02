@@ -46,7 +46,7 @@ add_executable(Tests
 target_link_libraries(Tests
 	PRIVATE Catch2::Catch2
 	PRIVATE lib)
-target_code_coverage(Tests EXCLUDE "/usr/*" "**/.conan/*" "${CMAKE_SOURCE_DIR}/test/*")
+target_code_coverage(Tests EXCLUDE "${CMAKE_SOURCE_DIR}/test/*")
 
 include(CTest)
 enable_testing()
