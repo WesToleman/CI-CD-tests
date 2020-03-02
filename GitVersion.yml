@@ -1,0 +1,35 @@
+mode: Mainline
+branches:
+  breaking:
+    regex: breaking[/]
+    mode: ContinuousDeployment
+    increment: Major
+    source-branches: ['master']
+    is-release-branch: false
+  spike:
+    regex: spike[/]
+    mode: ContinuousDeployment
+    increment: Major
+    source-branches: ['master']
+    is-release-branch: false
+  feature:
+    regex: feature[/]
+    mode: ContinuousDeployment
+    increment: Minor
+    source-branches: ['master']
+    is-release-branch: false
+  bugfix:
+    regex: bugfix[/]
+    mode: ContinuousDeployment
+    increment: Patch
+    source-branches: ['master']
+    is-release-branch: false
+  ci:
+    regex: ci[/]
+    mode: ContinuousDeployment
+    increment: Patch
+    source-branches: ['master']
+    is-release-branch: false
+tag-prefix: 'v'
+ignore:
+  sha: []

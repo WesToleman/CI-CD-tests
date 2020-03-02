@@ -1,5 +1,3 @@
-version: 'build-{build}-{branch}'
-
 image:
   - Visual Studio 2019
   - Ubuntu1804
@@ -9,6 +7,8 @@ platform:
 
 configuration:
   - Release
+
+skip_tags: true
 
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
@@ -78,11 +78,14 @@ for:
     - choco config set cacheLocation C:\Users\Appveyor\choco-cache
     # Doxygen and graphviz are required by the `doc` target
     - choco upgrade --no-progress doxygen.install graphviz
+    # Use GitVersion for setting the semantic version
+    - choco upgrade --no-progress gitversion.portable
     # Install Conan
     - pip install conan
     - conan user
 
   before_build:
+    - ps: gitversion /l console /output buildserver
     - conan install . -s build_type=%CONFIGURATION% --build missing
     - cmake -G "Visual Studio 16 2019" -A x64 .
 
@@ -91,3 +94,12 @@ for:
 
   test_script:
     - ctest -C %CONFIGURATION%
+
+  before_deploy:
+  - git config --global credential.helper store
+  - ps: Add-Content "$HOME\.git-credentials" "https://$($env:GITHUB_TOKEN):x-oauth-basic@github.com`n"
+
+  deploy_script:
+    - if %APPVEYOR_REPO_BRANCH% NEQ master appveyor exit
+    - git tag v%GitVersion_SemVer%
+    - git push --tags
