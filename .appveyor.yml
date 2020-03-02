@@ -78,11 +78,14 @@ for:
     - choco config set cacheLocation C:\Users\Appveyor\choco-cache
     # Doxygen and graphviz are required by the `doc` target
     - choco upgrade --no-progress doxygen.install graphviz
+    # Use GitVersion for setting the semantic version
+    - choco upgrade --no-progress gitversion.portable
     # Install Conan
     - pip install conan
     - conan user
 
   before_build:
+    - ps: gitversion /l console /output buildserver
     - conan install . -s build_type=%CONFIGURATION% --build missing
     - cmake -G "Visual Studio 16 2019" -A x64 .
 
