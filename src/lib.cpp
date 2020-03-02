@@ -6,12 +6,12 @@ int lib::tested_func(double param1, unsigned unused)
 {
 	(void)unused;
 
-	return std::sqrt(param1);
+	return static_cast<int>(std::round(std::sqrt(param1)));
 };
 
 int lib::untested_func(double param1, unsigned unused)
 {
 	(void)unused;
 
-	return std::sqrt(param1);
+	return static_cast<int>(std::round(std::sqrt(param1)));
 };
