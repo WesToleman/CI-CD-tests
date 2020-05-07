@@ -3,7 +3,7 @@ Project(CI-CD-Tests
 	DESCRIPTION "Testing continuous-delivery/continuous-integration for C++ projects with GitHub"
 	LANGUAGES CXX)
 
-option(USE_CMAKE_CONAN "Automatically install conan dependencies" OFF)
+option(USE_CMAKE_CONAN "Automatically install conan dependencies" ON)
 
 # Install conan dependencies automatically
 if(USE_CMAKE_CONAN)

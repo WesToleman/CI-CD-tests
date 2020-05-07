@@ -44,10 +44,8 @@ for:
     # Install Conan
     - sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q python3 python3-pip python3-setuptools python3-wheel
     - sudo -H pip3 install conan
-    - conan user
 
   before_build:
-    - conan install . -s build_type=$CONFIGURATION --install-folder=build --build missing
     - mkdir -p build; cd build; cmake -G Ninja -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
 
   build_script:
@@ -78,11 +76,9 @@ for:
     - choco upgrade --no-progress gitversion.portable
     # Install Conan
     - pip install conan
-    - conan user
 
   before_build:
     - ps: gitversion /l console /output buildserver
-    - conan install . -s build_type=%CONFIGURATION% --build missing
     - cmake -G "Visual Studio 16 2019" -A x64 .
 
   build_script:

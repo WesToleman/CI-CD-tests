@@ -42,8 +42,6 @@ jobs:
 
         # Install Conan
         - sudo -H pip3 install conan
-        # Detect architecture and compiler
-        - conan user
       script:
         - mkdir -p build && cd build
         - cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON ..
@@ -72,8 +70,6 @@ jobs:
       before_install:
         # Install Conan
         - pip3 install conan
-        # Detect architecture and compiler
-        - conan user
       script:
         - mkdir -p build && cd build
         - cmake -G Xcode ..
@@ -86,7 +82,3 @@ jobs:
         local_dir: html
         token: $GITHUB_TOKEN
         edge: true
-
-install:
-  # Download and build dependencies
-  - conan install . -s build_type=Release --install-folder=build --build missing
