@@ -52,10 +52,10 @@ for:
 
   before_build:
     - conan install . -s build_type=$CONFIGURATION --install-folder=build --build missing
-    - mkdir -p build; cd build; cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
+    - mkdir -p build; cd build; cmake -G Ninja -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
 
   build_script:
-    - make -j3
+    - ninja
 
   test_script:
     - ctest
