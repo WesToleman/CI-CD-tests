@@ -1,6 +1,6 @@
 image:
   - Visual Studio 2019
-  - Ubuntu1804
+  - Ubuntu2004
 
 platform:
   - x64
@@ -17,7 +17,7 @@ for:
 -
   matrix:
     only:
-      - image: Ubuntu1804
+      - image: Ubuntu2004
 
   cache:
     - /home/appveyor/.conan -> conanfile.txt
