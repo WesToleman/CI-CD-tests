@@ -3,6 +3,22 @@ Project(CI-CD-Tests
 	DESCRIPTION "Testing continuous-delivery/continuous-integration for C++ projects with GitHub"
 	LANGUAGES CXX)
 
+option(USE_CMAKE_CONAN "Automatically install conan dependencies" ON)
+
+# Install conan dependencies automatically
+if(USE_CMAKE_CONAN)
+	if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+		message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+		file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.15/conan.cmake"
+			"${CMAKE_BINARY_DIR}/conan.cmake")
+	endif()
+
+	include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+	conan_cmake_run(CONANFILE conanfile.txt
+		BUILD missing)
+endif()
+
 # Conan places find modules in the build directory
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/modules
 	                  ${CMAKE_SOURCE_DIR}/CMake/stabletec-cmake-scripts
