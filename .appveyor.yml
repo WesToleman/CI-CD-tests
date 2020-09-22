@@ -1,6 +1,7 @@
 image:
   - Visual Studio 2019
   - Ubuntu2004
+  - macos
 
 platform:
   - x64
@@ -53,6 +54,38 @@ for:
 
   test_script:
     - ctest
+
+-
+  matrix:
+    only:
+      - image: macos
+
+  environment:
+    HOMEBREW_NO_AUTO_UPDATE: '1'
+    HOMEBREW_NO_INSTALL_CLEANUP: '1'
+
+  cache:
+    - /Users/appveyor/.conan -> conanfile.txt
+    - /Users/appveyor/Library/Caches/pip -> .appveyor.yml
+
+  install:
+    # Clone any Git submodules
+    - git submodule -q update --init
+
+    # Doxygen and graphviz are required by the `doc` target
+    - brew install doxygen graphviz
+
+    # Install Conan
+    - sudo -H pip3 install conan
+
+  before_build:
+    - mkdir -p build; cd build; cmake -G Xcode ..
+
+  build_script:
+    - xcodebuild -project CI-CD-Tests.xcodeproj -configuration $CONFIGURATION
+
+  test_script:
+    - ctest -C $CONFIGURATION
 
 -
   matrix:
