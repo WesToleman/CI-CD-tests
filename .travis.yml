@@ -51,6 +51,32 @@ jobs:
         # Upload report to CodeCov
         - bash <(curl -s https://codecov.io/bash) -f ccov/Tests.info || echo "Codecov did not collect coverage reports"
 
+    - os: windows
+      cache:
+        directories:
+          - $HOME\choco-cache
+          - $HOME\.conan
+
+      before_install:
+        # Change where Chocolatey caches downloads
+        - choco config set cacheLocation C:\Users\Travis\choco-cache
+
+        # Doxygen and graphviz are required by the `doc` target
+        - choco upgrade --no-progress doxygen.install graphviz
+
+        # Use Python3
+        - choco upgrade --no-progress python3
+
+        # Install Conan
+        - pip install conan
+
+      script:
+        - cmake -G "Visual Studio 16 2019" -A x64 .
+        - msbuild CI-CD-Tests.sln /m  /p:BuildInParallel="True"
+
+      test_script:
+        - ctest -C Release
+
     - os: osx
       osx_image: xcode12
       compiler: clang
