@@ -66,9 +66,10 @@ jobs:
 
         # Use Python3
         - choco upgrade --no-progress python3
+        - refreshenv
 
         # Install Conan
-        - pip install conan
+        - pip3 install conan
 
       script:
         - cmake -G "Visual Studio 16 2019" -A x64 .
