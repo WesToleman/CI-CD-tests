@@ -54,12 +54,12 @@ jobs:
     - os: windows
       cache:
         directories:
-          - $HOME\choco-cache
-          - $HOME\.conan
+          - $HOME/choco-cache
+          - $HOME/.conan
 
       before_install:
         # Change where Chocolatey caches downloads
-        - choco config set cacheLocation C:\Users\Travis\choco-cache
+        - choco config set cacheLocation C:/Users/Travis/choco-cache
 
         # Doxygen and graphviz are required by the `doc` target
         - choco upgrade --no-progress doxygen.install graphviz
