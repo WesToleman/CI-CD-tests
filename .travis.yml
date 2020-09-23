@@ -73,8 +73,6 @@ jobs:
       script:
         - cmake -G "Visual Studio 16 2019" -A x64 .
         - msbuild CI-CD-Tests.sln /m  /p:BuildInParallel="True"
-
-      test_script:
         - ctest -C Release
 
     - os: osx
