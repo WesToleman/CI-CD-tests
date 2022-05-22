@@ -73,7 +73,7 @@ for:
     - git submodule -q update --init
 
     # Doxygen and graphviz are required by the `doc` target
-    - brew install doxygen graphviz
+    - brew install homebrew/cask/doxygen graphviz
 
     # Install Conan
     - sudo -H pip3 install conan
