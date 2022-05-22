@@ -7,16 +7,24 @@ option(USE_CMAKE_CONAN "Automatically install conan dependencies" ON)
 
 # Install conan dependencies automatically
 if(USE_CMAKE_CONAN)
-	if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-		message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-		file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.15/conan.cmake"
-			"${CMAKE_BINARY_DIR}/conan.cmake")
+	if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.0.18.1.cmake")
+		message(STATUS "Downloading conan.cmake 0.18.1 from https://github.com/conan-io/cmake-conan")
+		file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.18.1/conan.cmake"
+		              "${CMAKE_BINARY_DIR}/conan.0.18.1.cmake"
+		              TLS_VERIFY ON)
 	endif()
 
-	include(${CMAKE_BINARY_DIR}/conan.cmake)
+	include(${CMAKE_BINARY_DIR}/conan.0.18.1.cmake)
 
-	conan_cmake_run(CONANFILE conanfile.txt
-		BUILD missing)
+	conan_cmake_configure(GENERATORS cmake_find_package)
+
+	conan_cmake_autodetect(settings)
+
+	conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}/conanfile.txt
+	                    BUILD outdated
+	                    SETTINGS ${settings}
+	                    OUTPUT_QUIET)
+
 endif()
 
 # Conan places find modules in the build directory
