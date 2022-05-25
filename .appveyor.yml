@@ -73,7 +73,8 @@ for:
     - git submodule -q update --init
 
     # Doxygen and graphviz are required by the `doc` target
-    - brew install doxygen graphviz
+    # xorgproto is required by graphviz, it requires overwriting some existing links
+    - brew install homebrew/cask/doxygen --overwrite xorgproto graphviz
 
     # Install Conan
     - sudo -H pip3 install conan
@@ -106,7 +107,7 @@ for:
     # Doxygen and graphviz are required by the `doc` target
     - choco upgrade --no-progress doxygen.install graphviz
     # Use GitVersion for setting the semantic version
-    - choco upgrade --no-progress gitversion.portable
+    - choco upgrade --no-progress gitversion.portable --version 5.6.3
     # Install Conan
     - pip install conan
 
